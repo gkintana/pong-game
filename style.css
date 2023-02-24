@@ -3,15 +3,17 @@
 }
 
 :root {
-	--hue: 350;
+	--hue: 100;
 	--saturation: 50%;
 	--foreground-color: hsl(var(--hue), var(--saturation), 80%);
 	--background-color: hsl(var(--hue), var(--saturation), 20%);
+	--score-background-color: hsl(var(--hue), var(--saturation), 10%);
 }
 
 body {
 	margin: 0;
 	background-color: var(--background-color);
+	overflow: hidden;
 }
 
 .paddle {
@@ -45,4 +47,25 @@ body {
 	transform: translate(-50%, -50%);
 	width: 2.5vh;
 	height: 2.5vh;
+}
+
+.score {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 5vh;
+	color: var(--foreground-color);
+	background-color: var(--score-background-color);
+}
+
+.score > * {
+	flex-grow: 1;
+	flex-basis: 0;
+	margin: 1vh 0;
+	padding: 0 7vw;
+}
+
+.score > :first-child {
+	text-align: right;
+	border-right: 0.75vh solid var(--foreground-color);
 }
