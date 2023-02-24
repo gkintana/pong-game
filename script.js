@@ -12,9 +12,8 @@ let previousTime
 function updateFrame(currentTime) {
 	if (previousTime != null) {
 		const diff = currentTime - previousTime
-		ball.updateFrame(diff)
-		// leftPaddle.updateFrame(diff, ball.y)
-		rightPaddle.updateFrame(diff, ball.y)
+		ball.update(diff, [leftPaddle.rect(), rightPaddle.rect()])
+		rightPaddle.update(diff, ball.y)
 	}
 
 	if (isRallyFinished()) {
@@ -26,15 +25,18 @@ function updateFrame(currentTime) {
 	window.requestAnimationFrame(updateFrame)
 }
 
-function addPointToWinner() {
-	const rect = ball.rect()
-	rect.right >= window.innerWidth ? leftScore.textContent = parseInt(leftScore.textContent) + 1 :
-	                                  rightScore.textContent = parseInt(rightScore.textContent) + 1
-}
-
 function isRallyFinished() {
 	const rect = ball.rect();
 	return rect.right >= window.innerWidth || rect.left <= 0
+}
+
+function increase(elementId) {
+	elementId.textContent = parseInt(elementId.textContent) + 1
+}
+
+function addPointToWinner() {
+	const rect = ball.rect()
+	rect.right >= window.innerWidth ? increase(leftScore) : increase(rightScore)
 }
 
 document.addEventListener("mousemove", element => {

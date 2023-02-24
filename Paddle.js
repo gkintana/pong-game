@@ -1,4 +1,4 @@
-const PADDLE_SPEED = 0.015
+const PADDLE_SPEED = 0.02
 
 export default class Paddle {
 	constructor(paddleElement) {
@@ -14,11 +14,15 @@ export default class Paddle {
 		this.paddleElement.style.setProperty("--position", coordinate)
 	}
 
+	rect() {
+		return this.paddleElement.getBoundingClientRect()
+	}
+
 	reset() {
 		this.position = 50
 	}
 
-	updateFrame(diff, ballHeight) {
+	update(diff, ballHeight) {
 		this.position += PADDLE_SPEED * diff * (ballHeight - this.position)
 	}
 }

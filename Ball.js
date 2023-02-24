@@ -1,4 +1,4 @@
-const INITIAL_VELOCITY = 0.02
+const INITIAL_VELOCITY = 0.025
 const VELOCITY_INCREMENT = 0.00001
 
 export default class Ball {
@@ -11,16 +11,16 @@ export default class Ball {
 		return parseFloat(getComputedStyle(this.ballElement).getPropertyValue("--x"))
 	}
 
+	set x(coordinate) {
+		this.ballElement.style.setProperty("--x", coordinate)
+	}
+
 	get y() {
 		return parseFloat(getComputedStyle(this.ballElement).getPropertyValue("--y"))
 	}
 
-	set x(position) {
-		this.ballElement.style.setProperty("--x", position)
-	}
-
-	set y(position) {
-		this.ballElement.style.setProperty("--y", position)
+	set y(coordinate) {
+		this.ballElement.style.setProperty("--y", coordinate)
 	}
 
 	rect() {
@@ -45,7 +45,7 @@ export default class Ball {
 		this.velocity = INITIAL_VELOCITY
 	}
 
-	updateFrame(diff) {
+	update(diff, paddleSurface) {
 		this.x += this.direction.x * this.velocity * diff
 		this.y += this.direction.y * this.velocity * diff
 		this.velocity += VELOCITY_INCREMENT * diff
@@ -54,9 +54,20 @@ export default class Ball {
 		if (rect.bottom >= window.innerHeight || rect.top <= 0) {
 			this.direction.y *= -1
 		}
+
+		if (paddleSurface.some(paddle => isCollided(paddle, rect))) {
+			this.direction.x *= -1
+		}
 	}
 }
 
 function randomNumberFrom(min, max) {
 	return Math.random() * (max - min) + min
+}
+
+function isCollided(paddleSurface, ball) {
+	return paddleSurface.left <= ball.right &&
+	       paddleSurface.right >= ball.left &&
+	       paddleSurface.top <= ball.bottom &&
+	       paddleSurface.bottom >= ball.top
 }
