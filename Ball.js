@@ -4,21 +4,21 @@ const VELOCITY_INCREMENT = 0.00001
 export default class Ball {
 	constructor(ballElement) {
 		this.ballElement = ballElement
-		this.resetBall()
+		this.reset()
 	}
 
 	get x() {
 		return parseFloat(getComputedStyle(this.ballElement).getPropertyValue("--x"))
 	}
-	
+
 	get y() {
 		return parseFloat(getComputedStyle(this.ballElement).getPropertyValue("--y"))
 	}
-	
+
 	set x(position) {
 		this.ballElement.style.setProperty("--x", position)
 	}
-	
+
 	set y(position) {
 		this.ballElement.style.setProperty("--y", position)
 	}
@@ -27,7 +27,7 @@ export default class Ball {
 		return this.ballElement.getBoundingClientRect()
 	}
 
-	resetBall() {
+	reset() {
 		this.x = 50
 		this.y = 50
 		this.direction = {
@@ -53,8 +53,6 @@ export default class Ball {
 		const rect = this.rect()
 		if (rect.bottom >= window.innerHeight || rect.top <= 0) {
 			this.direction.y *= -1
-		} else if (rect.right >= window.innerWidth || rect.left <= 0) {
-			this.direction.x *= -1
 		}
 	}
 }
