@@ -14,6 +14,16 @@ body {
 	margin: 0;
 	background-color: var(--background-color);
 	overflow: hidden;
+	font-size: 5vh;
+	font-weight: bold;
+}
+
+#start-screen {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50vh;
+	color: var(--foreground-color);
 }
 
 .paddle {
@@ -53,8 +63,6 @@ body {
 	display: flex;
 	justify-content: center;
 	height: 7.5vh;
-	font-weight: bold;
-	font-size: 5vh;
 	color: var(--foreground-color);
 	background-color: var(--score-background-color);
 }
