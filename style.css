@@ -19,17 +19,25 @@ body {
 	font-weight: bold;
 }
 
-#start-screen {
+.message > div {
 	position: relative;
-	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 10vh;
-	top: 42.5vh;
 	transform: translateY(-50%);
 	color: var(--foreground-color);
 	background-color: var(--background-color);
 	z-index: 2;
+}
+
+#start-message {
+	display: flex;
+	top: 42.25vh;
+}
+
+#end-message {
+	display: none;
+	top: 15vh;
 }
 
 .paddle {

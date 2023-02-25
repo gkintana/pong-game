@@ -8,13 +8,13 @@ const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
 const leftScore = document.getElementById("player1-score")
 const rightPaddle = new Paddle(document.getElementById("player2-paddle"))
 const rightScore = document.getElementById("player2-score")
-const winningPoint = 2
+const winningPoint = 1
 
 let previousTime
 
 function gameLoop(currentTime) {
-	updateStartScreen("none")
-	document.removeEventListener("keydown", waitForKeyPress)
+	updateDisplayProperty("start-message", "end-message", "none")
+	document.removeEventListener("keydown", waitForKeyEvent)
 
 	if (previousTime != null) {
 		const diff = currentTime - previousTime
@@ -27,10 +27,10 @@ function gameLoop(currentTime) {
 		resetGameObjects()
 
 		if (getScore(leftScore) >= winningPoint || getScore(rightScore) >= winningPoint) {
-			updateStartScreen("flex")
-			resetScore()
+			updateDisplayProperty("start-message", "end-message", "flex")
+			updateEndMessage(getWinner())
 			previousTime = null
-			document.addEventListener("keydown", waitForKeyPress)
+			document.addEventListener("keydown", waitForKeyEvent)
 			return
 		} else {
 			ball.reset()
@@ -41,9 +41,19 @@ function gameLoop(currentTime) {
 	window.requestAnimationFrame(gameLoop)
 }
 
-function updateStartScreen(value) {
-	var startScreen = document.getElementById("start-screen")
-	startScreen.style.display = value
+function updateDisplayProperty(startMessageId, endMessageId, value) {
+	var startMessage = document.getElementById(startMessageId)
+	var endMessage = document.getElementById(endMessageId)
+	startMessage.style.display = endMessage.style.display = value
+}
+
+function getWinner() {
+	return "Player " + (getScore(leftScore) >= winningPoint ? "1" : "2") + " Wins!"
+}
+
+function updateEndMessage(message) {
+	var endMessage = document.getElementById("end-message")
+	endMessage.innerHTML = message
 }
 
 function isRallyFinished() {
@@ -75,13 +85,14 @@ function getScore(elementId) {
 	return parseInt(elementId.textContent)
 }
 
-function waitForKeyPress(event) {
-	if (event.keyCode === 13) {
+function waitForKeyEvent(event) {
+	if (event.keyCode) {
+		resetScore()
 		gameLoop()
 	}
 }
 
-document.addEventListener("keydown", waitForKeyPress)
+document.addEventListener("keydown", waitForKeyEvent)
 
 document.addEventListener("mousemove", element => {
 	leftPaddle.position = (element.y / window.innerHeight) * 100
