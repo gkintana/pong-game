@@ -28,11 +28,11 @@ body {
 }
 
 .paddle.left {
-	left: 1.5vw;
+	left: 2.5vw;
 }
 
 .paddle.right {
-	right: 1.5vw;
+	right: 2.5vw;
 }
 
 .ball {
@@ -52,6 +52,7 @@ body {
 .score {
 	display: flex;
 	justify-content: center;
+	height: 7.5vh;
 	font-weight: bold;
 	font-size: 5vh;
 	color: var(--foreground-color);

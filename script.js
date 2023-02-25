@@ -1,5 +1,6 @@
 import Ball from "./Ball.js"
 import Paddle from "./Paddle.js"
+import { getVhProperty } from "./utils.js"
 
 const ball = new Ball(document.getElementById("ball"))
 const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
@@ -41,6 +42,11 @@ function addPointToWinner() {
 
 document.addEventListener("mousemove", element => {
 	leftPaddle.position = (element.y / window.innerHeight) * 100
+	if (leftPaddle.rect().top <= getVhProperty("score")) {
+		leftPaddle.position = (getVhProperty("score") / window.innerHeight * 100) + ((getVhProperty("player1-paddle") / 2) / window.innerHeight * 100)
+	} else if (leftPaddle.rect().bottom >= window.innerHeight) {
+		leftPaddle.position = 100 - ((getVhProperty("player1-paddle") / 2) / window.innerHeight * 100)
+	}
 })
 
 window.requestAnimationFrame(updateFrame)

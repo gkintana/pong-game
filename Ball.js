@@ -1,4 +1,6 @@
-const INITIAL_VELOCITY = 0.025
+import { getVhProperty } from "./utils.js"
+
+const INITIAL_VELOCITY = 0.02
 const VELOCITY_INCREMENT = 0.00001
 
 export default class Ball {
@@ -51,7 +53,7 @@ export default class Ball {
 		this.velocity += VELOCITY_INCREMENT * diff
 
 		const rect = this.rect()
-		if (rect.bottom >= window.innerHeight || rect.top <= 0) {
+		if (rect.bottom >= window.innerHeight || rect.top <= getVhProperty("score")) {
 			this.direction.y *= -1
 		}
 
