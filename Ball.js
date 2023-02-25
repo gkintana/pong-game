@@ -2,6 +2,7 @@ import { getVhProperty } from "./utils.js"
 
 const INITIAL_VELOCITY = 0.02
 const VELOCITY_INCREMENT = 0.00001
+const MAX_VELOCITY = 0.175
 
 export default class Ball {
 	constructor(ballElement) {
@@ -50,7 +51,9 @@ export default class Ball {
 	update(diff, paddleSurface) {
 		this.x += this.direction.x * this.velocity * diff
 		this.y += this.direction.y * this.velocity * diff
-		this.velocity += VELOCITY_INCREMENT * diff
+		if (this.velocity < MAX_VELOCITY) {
+			this.velocity += VELOCITY_INCREMENT * diff
+		}
 
 		const rect = this.rect()
 		if (rect.bottom >= window.innerHeight || rect.top <= getVhProperty("score")) {

@@ -3,11 +3,12 @@
 }
 
 :root {
-	--hue: 100;
+	--hue: 150;
 	--saturation: 50%;
 	--foreground-color: hsl(var(--hue), var(--saturation), 80%);
 	--background-color: hsl(var(--hue), var(--saturation), 20%);
 	--score-background-color: hsl(var(--hue), var(--saturation), 10%);
+	--line-color: hsl(var(--hue), var(--saturation), 30%);
 }
 
 body {
@@ -19,11 +20,16 @@ body {
 }
 
 #start-screen {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 50vh;
+	height: 10vh;
+	top: 42.5vh;
+	transform: translateY(-50%);
 	color: var(--foreground-color);
+	background-color: var(--background-color);
+	z-index: 2;
 }
 
 .paddle {
@@ -35,6 +41,7 @@ body {
 	transform: translateY(-50%);
 	width: 1vh;
 	height: 10vh;
+	z-index: 3;
 }
 
 .paddle.left {
@@ -51,12 +58,13 @@ body {
 
 	position: absolute;
 	background-color: var(--foreground-color);
-	left: calc(var(--x) * 1vw);
 	top: calc(var(--y) * 1vh);
+	left: calc(var(--x) * 1vw);
 	border-radius: 50%;
 	transform: translate(-50%, -50%);
 	width: 2.5vh;
 	height: 2.5vh;
+	z-index: 1;
 }
 
 .score {
@@ -77,4 +85,13 @@ body {
 .score > :first-child {
 	text-align: right;
 	border-right: 0.75vh solid var(--foreground-color);
+}
+
+.line {
+	position: absolute;
+	top: 8.75vh;
+	left: 50%;
+	border-left: 1vh dashed var(--line-color);
+	height: 90vh;
+	transform: translateX(-50%);
 }
