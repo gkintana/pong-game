@@ -10,35 +10,49 @@ const leftScore = document.getElementById("player1-score")
 const rightScore = document.getElementById("player2-score")
 const winningPoint = 1
 
-let previousTime
+let previousTime = null
 
 function gameLoop(currentTime) {
 	updateDisplayProperty("start-message", "end-message", "none")
-	document.removeEventListener("keydown", waitForKeyEvent)
+	updateEventListeners("start")
 
-	if (previousTime != null) {
-		const diff = currentTime - previousTime
-		ball.update(diff, [leftPaddle.rect(), rightPaddle.rect()])
-		rightPaddle.update(diff, ball.y)
-	}
-
+	updateGameObjects(currentTime)
 	if (isRallyFinished()) {
 		addPointToWinner()
 		resetGameObjects()
 
 		if (getScore(leftScore) >= winningPoint || getScore(rightScore) >= winningPoint) {
-			updateDisplayProperty("start-message", "end-message", "flex")
-			updateEndMessage(getWinner())
-			previousTime = null
-			document.addEventListener("keydown", waitForKeyEvent)
-			return
-		} else {
-			ball.reset()
+			return endGameLoop()
 		}
+		ball.reset()
 	}
-
 	previousTime = currentTime
 	window.requestAnimationFrame(gameLoop)
+}
+
+function updateGameObjects(currentTime) {
+	if (previousTime != null) {
+		const diff = currentTime - previousTime
+		ball.update(diff, [leftPaddle.rect(), rightPaddle.rect()])
+		rightPaddle.update(diff, ball.y)
+	}
+}
+
+function updateEventListeners(option) {
+	if (option == "start") {
+		document.removeEventListener("keydown", waitForKeyEvent)
+		document.addEventListener("mousemove", trackMouse)
+	} else if (option == "end") {
+		document.removeEventListener("mousemove", trackMouse)
+		document.addEventListener("keydown", waitForKeyEvent)
+	}
+}
+
+function endGameLoop() {
+	previousTime = null
+	updateEndMessage(getWinner())
+	updateDisplayProperty("start-message", "end-message", "flex")
+	updateEventListeners("end")
 }
 
 function updateDisplayProperty(startMessageId, endMessageId, value) {
@@ -93,14 +107,13 @@ function waitForKeyEvent(event) {
 	}
 }
 
-document.addEventListener("keydown", waitForKeyEvent)
-
-document.addEventListener("mousemove", element => {
-	leftPaddle.position = (element.y / window.innerHeight) * 100
-
+function trackMouse(event) {
+	leftPaddle.position = (event.y / window.innerHeight) * 100
 	if (leftPaddle.rect().top <= getVhProperty("score")) {
 		leftPaddle.position = getVhUnits("score") + (getVhUnits("player1-paddle") / 2)
 	} else if (leftPaddle.rect().bottom >= window.innerHeight) {
 		leftPaddle.position = 100 - (getVhUnits("player1-paddle") / 2)
 	}
-})
+}
+
+document.addEventListener("keydown", waitForKeyEvent)
