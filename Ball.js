@@ -39,10 +39,13 @@ export default class Ball {
 			x: 0,
 			y: 0
 		}
+		this.setBallVector()
 		this.velocity = INITIAL_VELOCITY
 		this.collisionX = false
 		side = 0
+	}
 
+	setBallVector() {
 		while (Math.abs(this.direction.x) <= 0.2 || Math.abs(this.direction.x) >= 0.9) {
 			const heading = randomNumberFrom(0, 2 * Math.PI)
 			this.direction = {
@@ -60,16 +63,25 @@ export default class Ball {
 			this.velocity += VELOCITY_INCREMENT * diff
 		}
 
+		this.updateCollisionStatus()
+		this.checkVerticalCollision(this.rect())
+		this.checkPaddleCollision(paddleSurface, this.rect())
+	}
+
+	updateCollisionStatus() {
 		if (this.collisionX && (side < 50 && this.x > 50) || (side > 50 && this.x < 50)) {
 			this.collisionX = false
 		}
+	}
 
-		const rect = this.rect()
-		if (rect.bottom >= window.innerHeight || rect.top <= getVhProperty("score")) {
+	checkVerticalCollision(ball) {
+		if (ball.bottom >= window.innerHeight || ball.top <= getVhProperty("score")) {
 			this.direction.y *= -1
 		}
+	}
 
-		if (!this.collisionX && paddleSurface.some(paddle => isCollided(paddle, rect))) {
+	checkPaddleCollision(paddleSurface, ball) {
+		if (!this.collisionX && paddleSurface.some(paddle => isCollided(paddle, ball))) {
 			this.direction.x *= -1
 			this.collisionX = true
 			side = this.x;
