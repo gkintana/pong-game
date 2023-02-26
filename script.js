@@ -1,7 +1,6 @@
 import Ball from "./Ball.js"
 import Paddle from "./Paddle.js"
-import { getVhProperty } from "./utils.js"
-import { getVhUnits } from "./utils.js"
+import { checkPaddlePosition } from "./utils.js"
 
 const ball = new Ball(document.getElementById("ball"))
 const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
@@ -76,13 +75,13 @@ function isRallyFinished() {
 	return rect.right >= window.innerWidth || rect.left <= 0
 }
 
-function increase(elementId) {
+function increment(elementId) {
 	elementId.textContent = parseInt(elementId.textContent) + 1
 }
 
 function addPointToWinner() {
 	const rect = ball.rect()
-	rect.right >= window.innerWidth ? increase(leftScore) : increase(rightScore)
+	rect.right >= window.innerWidth ? increment(leftScore) : increment(rightScore)
 }
 
 function resetGameObjects() {
@@ -109,11 +108,7 @@ function waitForKeyEvent(event) {
 
 function trackMouse(event) {
 	leftPaddle.position = (event.y / window.innerHeight) * 100
-	if (leftPaddle.rect().top <= getVhProperty("score")) {
-		leftPaddle.position = getVhUnits("score") + (getVhUnits("player1-paddle") / 2)
-	} else if (leftPaddle.rect().bottom >= window.innerHeight) {
-		leftPaddle.position = 100 - (getVhUnits("player1-paddle") / 2)
-	}
+	checkPaddlePosition(leftPaddle)
 }
 
 document.addEventListener("keydown", waitForKeyEvent)

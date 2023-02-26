@@ -1,3 +1,5 @@
+import { checkPaddlePosition } from "./utils.js"
+
 const PADDLE_SPEED = 0.02
 
 export default class Paddle {
@@ -24,5 +26,6 @@ export default class Paddle {
 
 	update(diff, ballHeight) {
 		this.position += PADDLE_SPEED * diff * (ballHeight - this.position)
+		checkPaddlePosition(this)
 	}
 }

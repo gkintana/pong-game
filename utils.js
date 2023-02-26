@@ -4,6 +4,14 @@ export function getVhProperty(elementId) {
 	return parseFloat(objectStyle.getPropertyValue("height"))
 }
 
-export function getVhUnits(elementId) {
+function getVhUnits(elementId) {
 	return getVhProperty(elementId) / window.innerHeight * 100
+}
+
+export function checkPaddlePosition(paddle) {
+	if (paddle.rect().top <= getVhProperty("score")) {
+		paddle.position = getVhUnits("score") + (getVhUnits("player1-paddle") / 2)
+	} else if (paddle.rect().bottom >= window.innerHeight) {
+		paddle.position = 100 - (getVhUnits("player1-paddle") / 2)
+	}
 }
