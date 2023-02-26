@@ -1,40 +1,32 @@
 import Ball from "./Ball.js"
 import Paddle from "./Paddle.js"
 import { checkPaddlePosition } from "./utils.js"
+import * as score from "./score.js"
 
 const ball = new Ball(document.getElementById("ball"))
 const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
 const rightPaddle = new Paddle(document.getElementById("player2-paddle"))
-const leftScore = document.getElementById("player1-score")
-const rightScore = document.getElementById("player2-score")
-const winningPoint = 1
-
-let previousTime = null
+var leftScore = document.getElementById("player1-score")
+var rightScore = document.getElementById("player2-score")
+var maxPoints = 2
+var previousTime = null
 
 function gameLoop(currentTime) {
 	updateDisplayProperty("start-message", "end-message", "none")
 	updateEventListeners("start")
-
 	updateGameObjects(currentTime)
-	if (isRallyFinished()) {
-		addPointToWinner()
-		resetGameObjects()
-
-		if (getScore(leftScore) >= winningPoint || getScore(rightScore) >= winningPoint) {
-			return endGameLoop()
-		}
-		ball.reset()
+	checkRally()
+	if (isGameOver()) {
+		return endGameLoop()
 	}
 	previousTime = currentTime
 	window.requestAnimationFrame(gameLoop)
 }
 
-function updateGameObjects(currentTime) {
-	if (previousTime != null) {
-		const diff = currentTime - previousTime
-		ball.update(diff, [leftPaddle.rect(), rightPaddle.rect()])
-		rightPaddle.update(diff, ball.y)
-	}
+function updateDisplayProperty(startMessageId, endMessageId, value) {
+	var startMessage = document.getElementById(startMessageId)
+	var endMessage = document.getElementById(endMessageId)
+	startMessage.style.display = endMessage.style.display = value
 }
 
 function updateEventListeners(option) {
@@ -47,22 +39,30 @@ function updateEventListeners(option) {
 	}
 }
 
+function updateGameObjects(currentTime) {
+	if (previousTime != null) {
+		const diff = currentTime - previousTime
+		ball.update(diff, [leftPaddle.rect(), rightPaddle.rect()])
+		rightPaddle.update(diff, ball.y)
+	}
+}
+
+function checkRally() {
+	if (isRallyFinished(ball.rect())) {
+		score.addPointToWinner(ball.rect(), leftScore, rightScore)
+		resetGameObjects()
+	}
+}
+
+function isGameOver() {
+	return score.get(leftScore) >= maxPoints || score.get(rightScore) >= maxPoints
+}
+
 function endGameLoop() {
 	previousTime = null
-	updateEndMessage(getWinner())
+	updateEndMessage(score.getWinner(leftScore, rightScore))
 	updateDisplayProperty("start-message", "end-message", "flex")
 	updateEventListeners("end")
-}
-
-function updateDisplayProperty(startMessageId, endMessageId, value) {
-	var startMessage = document.getElementById(startMessageId)
-	var endMessage = document.getElementById(endMessageId)
-	startMessage.style.display = endMessage.style.display = value
-}
-
-function getWinner() {
-	var n = getScore(leftScore) > getScore(rightScore) ? "1" : "2"
-	return "Player " + n + " Wins!"
 }
 
 function updateEndMessage(message) {
@@ -70,18 +70,8 @@ function updateEndMessage(message) {
 	endMessage.innerHTML = message
 }
 
-function isRallyFinished() {
-	const rect = ball.rect();
+function isRallyFinished(rect) {
 	return rect.right >= window.innerWidth || rect.left <= 0
-}
-
-function increment(elementId) {
-	elementId.textContent = parseInt(elementId.textContent) + 1
-}
-
-function addPointToWinner() {
-	const rect = ball.rect()
-	rect.right >= window.innerWidth ? increment(leftScore) : increment(rightScore)
 }
 
 function resetGameObjects() {
@@ -90,18 +80,9 @@ function resetGameObjects() {
 	rightPaddle.reset()
 }
 
-function resetScore() {
-	leftScore.textContent = 0
-	rightScore.textContent = 0
-}
-
-function getScore(elementId) {
-	return parseInt(elementId.textContent)
-}
-
 function waitForKeyEvent(event) {
 	if (event.keyCode) {
-		resetScore()
+		score.resetScore(leftScore, rightScore)
 		gameLoop()
 	}
 }
