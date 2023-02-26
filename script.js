@@ -5,8 +5,8 @@ import { getVhUnits } from "./utils.js"
 
 const ball = new Ball(document.getElementById("ball"))
 const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
-const leftScore = document.getElementById("player1-score")
 const rightPaddle = new Paddle(document.getElementById("player2-paddle"))
+const leftScore = document.getElementById("player1-score")
 const rightScore = document.getElementById("player2-score")
 const winningPoint = 1
 
@@ -48,7 +48,8 @@ function updateDisplayProperty(startMessageId, endMessageId, value) {
 }
 
 function getWinner() {
-	return "Player " + (getScore(leftScore) >= winningPoint ? "1" : "2") + " Wins!"
+	var n = getScore(leftScore) > getScore(rightScore) ? "1" : "2"
+	return "Player " + n + " Wins!"
 }
 
 function updateEndMessage(message) {
