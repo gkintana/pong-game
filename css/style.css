@@ -19,6 +19,26 @@ body {
 	font-weight: bold;
 }
 
+.score {
+	display: flex;
+	justify-content: center;
+	height: 7.5vh;
+	color: var(--foreground-color);
+	background-color: var(--score-background-color);
+}
+
+.score > div {
+	flex-grow: 1;
+	flex-basis: 0;
+	margin: 1vh 0;
+	padding: 0 7vw;
+}
+
+#player1-score {
+	text-align: right;
+	border-right: 0.75vh solid var(--foreground-color);
+}
+
 .message > div {
 	position: relative;
 	align-items: center;
@@ -40,26 +60,6 @@ body {
 	top: 15vh;
 }
 
-.paddle {
-	--position: 50;
-
-	position: absolute;
-	background-color: var(--foreground-color);
-	top: calc(var(--position) * 1vh);
-	transform: translateY(-50%);
-	width: 1vh;
-	height: 10vh;
-	z-index: 3;
-}
-
-.paddle.left {
-	left: 2.5vw;
-}
-
-.paddle.right {
-	right: 2.5vw;
-}
-
 .ball {
 	--x: 50;
 	--y: 50;
@@ -75,24 +75,24 @@ body {
 	z-index: 1;
 }
 
-.score {
-	display: flex;
-	justify-content: center;
-	height: 7.5vh;
-	color: var(--foreground-color);
-	background-color: var(--score-background-color);
+.paddle > div {
+	--position: 50;
+
+	position: absolute;
+	background-color: var(--foreground-color);
+	top: calc(var(--position) * 1vh);
+	transform: translateY(-50%);
+	width: 1vh;
+	height: 10vh;
+	z-index: 3;
 }
 
-.score > * {
-	flex-grow: 1;
-	flex-basis: 0;
-	margin: 1vh 0;
-	padding: 0 7vw;
+#player1-paddle {
+	left: 2.5vw;
 }
 
-.score > :first-child {
-	text-align: right;
-	border-right: 0.75vh solid var(--foreground-color);
+#player2-paddle {
+	right: 2.5vw;
 }
 
 .line {
