@@ -1,8 +1,8 @@
 import { getVhProperty } from "./utils.js"
 
-const INITIAL_VELOCITY = 0.02
+const INITIAL_VELOCITY = 0.0185
 const VELOCITY_INCREMENT = 0.00001
-const MAX_VELOCITY = 0.175
+const MAX_VELOCITY = 0.145
 
 let side = 0
 

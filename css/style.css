@@ -9,6 +9,7 @@
 	--background-color: hsl(var(--hue), var(--saturation), 20%);
 	--score-background-color: hsl(var(--hue), var(--saturation), 10%);
 	--line-color: hsl(var(--hue), var(--saturation), 30%);
+	--ball-color: #fcb404;
 }
 
 body {
@@ -45,7 +46,7 @@ body {
 	text-align: center;
 	justify-content: center;
 	left: 50vw;
-	height: 7.5vh;
+	height: 8vh;
 	width: 27.5vw;
 	transform: translate(-50%, -50%);
 	color: var(--foreground-color);
@@ -68,13 +69,13 @@ body {
 	--y: 50;
 
 	position: absolute;
-	background-color: var(--foreground-color);
+	background-color: var(--ball-color);
 	top: calc(var(--y) * 1vh);
 	left: calc(var(--x) * 1vw);
 	border-radius: 50%;
 	transform: translate(-50%, -50%);
-	width: 2.5vh;
-	height: 2.5vh;
+	width: 3vh;
+	height: 3vh;
 	z-index: 1;
 }
 
@@ -104,9 +105,9 @@ body {
 }
 
 #vertical-line {
-	top: 8.75vh;
+	top: 8.5vh;
 	left: 50%;
-	height: 90vh;
+	height: 99vh;
 	border-left: 1vh dashed var(--line-color);
 	transform: translateX(-50%);
 }
@@ -115,6 +116,7 @@ body {
 	top: 50vh;
 	width: 100vw;
 	border-bottom: 1vh solid #dddddd;
+	transform: translateY(-50%);
 }
 
 #top-border-line {
