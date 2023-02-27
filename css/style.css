@@ -42,9 +42,12 @@ body {
 .message > div {
 	position: relative;
 	align-items: center;
+	text-align: center;
 	justify-content: center;
-	height: 5vh;
-	transform: translateY(-50%);
+	left: 50vw;
+	height: 7.5vh;
+	width: 27.5vw;
+	transform: translate(-50%, -50%);
 	color: var(--foreground-color);
 	background-color: var(--background-color);
 	z-index: 2;
@@ -95,11 +98,45 @@ body {
 	right: 2.5vw;
 }
 
-.line {
+.line > div {
 	position: absolute;
+	top: 7.5vh;
+}
+
+#vertical-line {
 	top: 8.75vh;
 	left: 50%;
-	border-left: 1vh dashed var(--line-color);
 	height: 90vh;
+	border-left: 1vh dashed var(--line-color);
 	transform: translateX(-50%);
+}
+
+#horizontal-line {
+	top: 50vh;
+	width: 100vw;
+	border-bottom: 1vh solid #dddddd;
+}
+
+#top-border-line {
+	width: 100vw;
+	border-top: 1vh solid #dddddd;
+}
+
+#bottom-border-line {
+	top: 99vh;
+	width: 100vw;
+	border-bottom: 1vh solid #dddddd;
+}
+
+#left-border-line {
+	height: 92.5vh;
+	border-left: 1vh solid #dddddd;
+	z-index: 2;
+}
+
+#right-border-line {
+	right: 0vh;
+	height: 92.5vh;
+	border-right: 1vh solid #dddddd;
+	z-index: 2;
 }
