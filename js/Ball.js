@@ -1,8 +1,8 @@
 import { getVhProperty } from "./utils.js"
 
-const INITIAL_VELOCITY = 0.0185
+const INITIAL_VELOCITY = 0.015
 const VELOCITY_INCREMENT = 0.00001
-const MAX_VELOCITY = 0.145
+const MAX_VELOCITY = 0.125
 
 let side = 0
 
@@ -56,7 +56,6 @@ export default class Ball {
 	}
 
 	update(diff, paddleSurface) {
-		console.log(this.collisionX)
 		this.x += this.direction.x * this.velocity * diff
 		this.y += this.direction.y * this.velocity * diff
 		if (this.velocity < MAX_VELOCITY) {

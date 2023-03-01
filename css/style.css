@@ -3,6 +3,7 @@
 }
 
 :root {
+	cursor: none;
 	--hue: 150;
 	--saturation: 50%;
 	--foreground-color: hsl(var(--hue), var(--saturation), 80%);
@@ -21,6 +22,7 @@ body {
 }
 
 .score {
+	cursor: default;
 	display: flex;
 	justify-content: center;
 	height: 7.5vh;

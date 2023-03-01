@@ -8,7 +8,7 @@ const leftPaddle = new Paddle(document.getElementById("player1-paddle"))
 const rightPaddle = new Paddle(document.getElementById("player2-paddle"))
 var leftScore = document.getElementById("player1-score")
 var rightScore = document.getElementById("player2-score")
-var maxPoints = 2
+var maxPoints = 11
 var previousTime = null
 
 function gameLoop(currentTime) {

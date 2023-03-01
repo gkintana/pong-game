@@ -1,6 +1,6 @@
 import { checkPaddlePosition } from "./utils.js"
 
-const PADDLE_SPEED = 0.0155
+const PADDLE_SPEED = 0.013265
 
 export default class Paddle {
 	constructor(paddleElement) {
